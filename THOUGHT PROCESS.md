@@ -25,5 +25,5 @@ Alright, with the planning phase done, time to spec things out!
 ### First Steps
 
 - Get Prisma hooked up to MariaDB. This was a bigger pain than initially expected, but eventually got it working with migrations. So swapped out the migration script with prisma. To get everything set up you run: `docker-compose exec server npx prisma migrate dev`
-
 - Added a migration for complete status of tasks, otherwise how we gonna filter these?
+- Get typescript running properly
