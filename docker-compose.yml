@@ -14,22 +14,8 @@ services:
       MARIADB_DATABASE: limble
       MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 1
 
-  migrate:
-    image: mariadb:11.3.2
-    command: ["/code/build-schema.sh"]
-    volumes:
-      - "./schema:/code"
-    environment:
-      DATABASE_HOST: db
-      DATABASE_USER: limble-test
-      DATABASE_PASSWORD: limble-test-password
-      DATABASE_NAME: limble
-    depends_on:
-      db:
-        condition: service_healthy
-
   server:
-    image: node:21.7.1-bookworm-slim
+    build: .
     command: ["npm", "start"]
     working_dir: /code
     user: node
@@ -42,7 +28,7 @@ services:
       DATABASE_USER: limble-test
       DATABASE_PASSWORD: limble-test-password
       DATABASE_NAME: limble
-      DATABASE_URL: "mariadb://limble-test:limble-test-password@db/limble"
+      DATABASE_URL: "mysql://root@db:3306/limble"
     depends_on:
       db:
         condition: service_healthy

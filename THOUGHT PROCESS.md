@@ -7,10 +7,12 @@ Thanks for this opportunity team! I'm actually really excited after meeting ever
 After looking over the prompt and the repo I came to a few conclusions:
 1. The associations are begging for an ORM to handle performant queries for us
 2. Initially, I thought GraphQL may be preferable to avoid multiple requests, but since additional filtering would result in additional requests anyway, and the division of RESTful resources makes a lot of sense structurally for how an application might use this API, I thought it made sense to stick with REST. So given that, our routes become fairly obvious based on the nested nature of the resources:
-`/location_reports/:location_id` - this route lets us handle `By location: the total labor cost for tasks tied to a given location`
-`/worker_reports/:worker_id` - this route lets us handle `By worker: the total cost of that worker across all tasks and locations`
+`/location_reports` - this route lets us handle `By location: the total labor cost for tasks tied to a given location`
+`/worker_reports` - this route lets us handle `By worker: the total cost of that worker across all tasks and locations`
 
 Why those instead of `locations` and `workers`? Because technically that wouldn't be in line with RESTful practices - `locations` is reserved for _only_ returning location information. Whereas here we're looking for the total money spent on hours worked by location or worker - so this is essentially a different resource, I'll call it a report. It also let's us more senisibly include a query option of `status:incomplete|complete|all`. However this does necessitate a middleware to handle user input through the query string.
+
+For allowing sets of worker and location IDs, we can include a query string option on the index of each report resource that is an array of IDs, that gives the index the option to include combined reports.
 
 I need to gather a few packages so we're not reinventing the wheel for no reason. Firstly, for our ORM I found [Prisma](https://www.prisma.io/orm). I'm not familiar with it, but it seemed simple enough to implement so we'll go with that! It even handles migrations with its schema file, which is a big step above using a SQL file. 
 
@@ -19,3 +21,9 @@ Secondly, we'll go with express-validator (sanitizing query strings) and helmet 
 Last but not least, we need a testing framework. I went with Mocha and Chai, as it somewhat resembles rspec and I'm kinda used to that.
 
 Alright, with the planning phase done, time to spec things out!
+
+### First Steps
+
+- Get Prisma hooked up to MariaDB. This was a bigger pain than initially expected, but eventually got it working with migrations. So swapped out the migration script with prisma. To get everything set up you run: `docker-compose exec server npx prisma migrate dev`
+
+- Added a migration for complete status of tasks, otherwise how we gonna filter these?
