@@ -49,7 +49,7 @@ export const resolvers = {
         where: {}, 
         include: { 
           tasks: { 
-            where: { AND: [{}] } 
+            where: { AND: [{}] }
           } 
         } 
       }
@@ -65,8 +65,6 @@ export const resolvers = {
       if (args.complete) {
         q.include.tasks.where.AND.push({ complete: args.complete })
       }
-
-      console.log(args)
 
       return prisma.locations.findMany(q) 
     },
@@ -85,8 +83,6 @@ export const resolvers = {
         q.where = { id: { in: args.ids } }
       }
 
-      console.log(args)
-
       if (args.location_ids) {
         q.include.logged_times.where.AND.push({ 
           task: { 
@@ -103,6 +99,32 @@ export const resolvers = {
 
       return prisma.workers.findMany(q) 
     },
+  },
+  Location: {
+    tasks: (parent, _args) => {
+      return prisma.locations.findUnique({ where: { id: parent?.id } }).tasks()
+    }
+  },
+  LoggedTime: {
+    task: (parent, _args) => {
+      return prisma.logged_time.findUnique({ where: { id: parent?.id } }).task()
+    },
+    worker: (parent, _args) => {
+      return prisma.logged_time.findUnique({ where: { id: parent?.id } }).worker()
+    }
+  },
+  Task: {
+    location: (parent, _args) => {
+      return prisma.tasks.findUnique({ where: { id: parent?.id } }).location()
+    },
+    logged_times: (parent, _args) => {
+      return prisma.tasks.findUnique({ where: { id: parent?.id } }).logged_times()
+    }
+  },
+  Worker: {
+    logged_times: (parent, _args) => {
+      return prisma.workers.findUnique({ where: { id: parent?.id } }).logged_times()
+    }
   }
 }
 

@@ -1,4 +1,4 @@
-# Thought Process
+# The Process
 
 ### Forward
 Thanks for this opportunity team! I'm actually really excited after meeting everyone to come on board. I'll explain some of my thought process for this application below - and I'm happy to go over any of this in our review!
@@ -27,3 +27,6 @@ Now normally by this point I'd be working on getting specs in place, but I'm not
 So the first big exploration for me is getting our GraphQL schema in place and manually testing some things, as well as tying that in with my prisma resolvers.
 
 Following GraphQL being setup will be seeds so we can test, and iterate on any issues!
+
+### Testing and Iterations
+`docker-compose exec server npx prisma db seed` to seed the database with random location data, then testing and iterating at this point.
