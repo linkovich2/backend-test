@@ -26,13 +26,7 @@ Now normally by this point I'd be working on getting specs in place, but I'm not
 
 So the first big exploration for me is getting our GraphQL schema in place and manually testing some things, as well as tying that in with my prisma resolvers.
 
-Following GraphQL being setup will be seeds so we can test, and iterating on any issues!
-
-### Testing and Iterations
-1. `docker-compose exec server npx prisma db seed` to seed the database with random location data, and now just a cycle of testing and iterating! Ultimately the graphql endpoint is very flexible.
-2. Next up is getting the `sum` portion of the API working correctly, it should sum together all joined costs so we can display that along with locations or workers.
-3. After that, implementing some security middleware is always a good idea.
-4. And finally, we're writing specs!
+Following GraphQL being setup will be seeds so we can test, and iterating on any issues, before touching up any loose ends and finishing the specs.
 
 ### Possible Improvements
 1. Pagination, it is not currently implemented but would definitely be a requirement for larger datasets.
