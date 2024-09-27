@@ -40,3 +40,6 @@ by bringing the DB container down:
 ```bash
 docker compose down
 ```
+
+## What's Next?
+Take a look at my [process breakdown](./THOUGHT%20PROCESS.md)
