@@ -1,4 +1,5 @@
 import express from "express"
+import helmet from "helmet"
 import { graphqlHTTP } from 'express-graphql'
 import { schema } from './schema.js'
 import { context } from './context.js'
@@ -6,10 +7,11 @@ import { context } from './context.js'
 const app  = express()
 const port = 3000
 
-// @todo security middleware
 // @todo tests
 
 async function main() {
+  app.use(helmet())
+
   app.use('/', graphqlHTTP({ schema, context }))
 
   app.listen(port, "0.0.0.0", () => {

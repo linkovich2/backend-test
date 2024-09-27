@@ -6,7 +6,7 @@ Thanks for this opportunity team! I'm actually really excited after meeting ever
 ### Choosing the Approach
 After looking over the prompt and the repo I came to a few conclusions:
 1. The associations are begging for an ORM to handle performant queries for us
-2. I went back and forth on this for a while in my planning phase, but ultimately GraphQL was chosen over REST since users can specify how they want the data to be presented, as opposed to needing to have resources for any uniquely compiled data (even computed).
+2. I went back and forth on this for a while in my planning phase, but ultimately GraphQL was chosen over REST since users can specify how they want the data to be presented, as opposed to needing to have resources for any uniquely compiled data (even computed), plus it lowers the number of repeated requests.
 
 I need to gather a few packages so we're not reinventing the wheel for no reason. Firstly, for our ORM I found [Prisma](https://www.prisma.io/orm). I'm not familiar with it, but it seemed simple enough to implement so we'll go with that! It even handles migrations with its schema file, which is a big step above using a SQL file. It's also compatible with GraphQL out of the box, so that's a huge plus.
 
@@ -40,5 +40,7 @@ Following GraphQL being setup will be seeds so we can test, and iterating on any
 3. Logging. Access logs in APIs like this are a great way to track usage.
 4. Performance tracking. NewRelic or something like it
 5. Refactoring. My example here is hardly idiomatic (although I'm not sure there's a particular standard to adhere to in the Node world) - maybe organizing it in whatever standards we've implemented in other repos is a good idea for onboarding.
+
+There are probably other improvements that can be made. This was a fun dive into GraphQL for me, as I didn't have much experience with it - generally I would have approached this with a REST solution, but I've done so much of that in my career and GraphQL had some interesting advantages for this use-case.
 
 Thanks again for this opportunity! Can't wait to meet with you guys about the repo!
