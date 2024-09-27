@@ -14,6 +14,7 @@ const main = async () => {
 
   await seed.locations((x) => x(10, {
     tasks: (y) => y(5, {
+      complete: Math.random() > 0.5 ? true : false,
       logged_times: (z) => z(10, {
         worker: {}
       })
