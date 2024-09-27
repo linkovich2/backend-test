@@ -25,7 +25,13 @@ docker compose up -d db
 Once it's ready to go, you can run the schema migrator to build the schema:
 
 ```bash
-docker compose run migrate
+docker compose exec server npx prisma migrate dev
+```
+
+And to seed:
+
+```bash
+docker-compose exec server npx prisma db seed
 ```
 
 If that fails (because of something like an already existing table), you can always start with a clean slate
