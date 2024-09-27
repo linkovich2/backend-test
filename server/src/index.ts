@@ -1,18 +1,12 @@
 import express from "express"
+import { graphqlHTTP } from 'express-graphql'
+import { schema, prisma } from './schema.js'
 
-import type { Prisma } from "@prisma/client"
-import PrismaClientPkg from "@prisma/client"
-
-const PrismaClient = PrismaClientPkg.PrismaClient
-
-const prisma = new PrismaClient()
-const app    = express()
-const port   = 3000
+const app  = express()
+const port = 3000
 
 async function main() {
-  app.get("/", (req, res) => {
-    res.send("Hello!")
-  })
+  app.use('/', graphqlHTTP({ schema }))
 
   app.listen(port, "0.0.0.0", () => {
     console.info(`App listening on ${port}.`)

@@ -6,13 +6,7 @@ Thanks for this opportunity team! I'm actually really excited after meeting ever
 ### Choosing the Approach
 After looking over the prompt and the repo I came to a few conclusions:
 1. The associations are begging for an ORM to handle performant queries for us
-2. Initially, I thought GraphQL may be preferable to avoid multiple requests, but since additional filtering would result in additional requests anyway, and the division of RESTful resources makes a lot of sense structurally for how an application might use this API, I thought it made sense to stick with REST. So given that, our routes become fairly obvious based on the nested nature of the resources:
-`/location_reports` - this route lets us handle `By location: the total labor cost for tasks tied to a given location`
-`/worker_reports` - this route lets us handle `By worker: the total cost of that worker across all tasks and locations`
-
-Why those instead of `locations` and `workers`? Because technically that wouldn't be in line with RESTful practices - `locations` is reserved for _only_ returning location information. Whereas here we're looking for the total money spent on hours worked by location or worker - so this is essentially a different resource, I'll call it a report. It also let's us more senisibly include a query option of `status:incomplete|complete|all`. However this does necessitate a middleware to handle user input through the query string.
-
-For allowing sets of worker and location IDs, we can include a query string option on the index of each report resource that is an array of IDs, that gives the index the option to include combined reports.
+2. I went back and forth on this for a while in my planning phase, but ultimately GraphQL was chosen over REST since users can specify how they want the data to be presented, as opposed to needing to have resources for any uniquely compiled data (even computed).
 
 I need to gather a few packages so we're not reinventing the wheel for no reason. Firstly, for our ORM I found [Prisma](https://www.prisma.io/orm). I'm not familiar with it, but it seemed simple enough to implement so we'll go with that! It even handles migrations with its schema file, which is a big step above using a SQL file. 
 
@@ -23,7 +17,13 @@ Last but not least, we need a testing framework. I went with Mocha and Chai, as 
 Alright, with the planning phase done, time to spec things out!
 
 ### First Steps
-
 - Get Prisma hooked up to MariaDB. This was a bigger pain than initially expected, but eventually got it working with migrations. So swapped out the migration script with prisma. To get everything set up you run: `docker-compose exec server npx prisma migrate dev`
-- Added a migration for complete status of tasks, otherwise how we gonna filter these?
+- Add a migration for complete status of tasks
 - Get typescript running properly
+
+### The Meat of the Project
+Now normally by this point I'd be working on getting specs in place, but I'm not 100% on how prisma integrates with graphql and how that will be structured, nor am I 100% on how best to test this, so for me that means a little experimentation is in order. And tests will have to be last. I want to stress that in normal development situations I would at least get an outline into my specs before actually writing any code. It helps keep on track and in scope. But this one is admittedly charting some new territory for me.
+
+So the first big exploration for me is getting our GraphQL schema in place and manually testing some things, as well as tying that in with my prisma resolvers.
+
+Following GraphQL being setup will be seeds so we can test, and iterate on any issues!
