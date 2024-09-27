@@ -10,7 +10,7 @@ After looking over the prompt and the repo I came to a few conclusions:
 
 I need to gather a few packages so we're not reinventing the wheel for no reason. Firstly, for our ORM I found [Prisma](https://www.prisma.io/orm). I'm not familiar with it, but it seemed simple enough to implement so we'll go with that! It even handles migrations with its schema file, which is a big step above using a SQL file. It's also compatible with GraphQL out of the box, so that's a huge plus.
 
-Secondly, we'll go with express-validator (sanitizing input) and helmet (headers) for security. That should cover most of the needs of this application that I'm aware of.
+Secondly, we'll go with ~~express-validator (sanitizing input)~~ (not needed since we decided on GraphQL) and helmet (headers) for security. That should cover most of the needs of this application that I'm aware of.
 
 Last but not least, we need a testing framework. I went with Mocha and Chai, as it somewhat resembles rspec and I'm kinda used to that.
 

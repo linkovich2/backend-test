@@ -141,8 +141,6 @@ export const resolvers = {
         }, 0)
       }, 0)
 
-      console.log(total)
-
       return total
     }
   },
