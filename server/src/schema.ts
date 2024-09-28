@@ -114,7 +114,6 @@ export const resolvers = {
       })
     },
     total_cost: async (parent, args, context: Context) => {
-      // see comment below at similar method
       const tasks = await context.prisma.locations.findUnique({
         where: { id: parent.id },
         include: {
@@ -182,9 +181,6 @@ export const resolvers = {
       })
     },
     total_cost: async (parent, args, context: Context) => {
-      // tried prisma's model extending but they don't allow relations there, plus there was no way to filter in the context of GraphQL at that point
-      // tried adding together some computed fields in GraphQL but that was a bit weird and had the same problems as above
-      // So ultimately we wind up with this, a little janky and likely not performant at larger datasets
       const logged_times = await context.prisma.workers.findUnique({
         where: { id: parent.id },
         include: { logged_times: { include: { task: true } } }
