@@ -46,5 +46,31 @@ docker compose down
 docker-compose exec server npm test
 ```
 
+Try hitting `localhost:3000/` in postman. Here's a sample query (make sure to seed first):
+```
+query Locations($ids: [Int!] = [1]) {
+    locations(ids: $ids) {
+        id
+        name
+        tasks {
+            id
+            complete
+            description
+            logged_times {
+                id
+                time_seconds
+                worker {
+                    id
+                    username
+                    hourly_wage
+                    total_cost
+                }
+            }
+        }
+        total_cost(worker_ids: [1])
+    }
+}
+```
+
 ## Further Reading
 Take a look at my [process breakdown](./THOUGHT%20PROCESS.md) for some details about my thinking with this little project!
