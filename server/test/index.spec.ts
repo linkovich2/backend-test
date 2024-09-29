@@ -1,7 +1,6 @@
 import { expect } from 'chai'
 import { create_server, ctx as context } from '../src/server.js'
 
-import util from 'util'
 import request from 'supertest'
 import gql from 'graphql-tag'
 import { print } from 'graphql/language/printer.js'
@@ -35,11 +34,9 @@ describe('GraphQL API', () => {
     expect(body).to.have.property('data')
     expect(body.data).to.have.property('locations').that.is.an('array')
 
-    if (body.data.locations.length > 0) {
-      const firstLocation = body.data.locations[0]
-      expect(firstLocation).to.have.property('id')
-      expect(firstLocation).to.have.property('name')
-    }
+    const location = body.data.locations[0]
+    expect(location).to.have.property('id')
+    expect(location).to.have.property('name')
   })
 
   it('should fetch workers based on filters', async () => {
@@ -84,12 +81,11 @@ describe('GraphQL API', () => {
     expect(body).to.have.property('data')
     expect(body.data).to.have.property('workers').that.is.an('array')
 
-    if (body.data.workers.length > 0) {
-      const firstWorker = body.data.workers[0]
-      expect(firstWorker).to.have.property('id')
-      expect(firstWorker).to.have.property('username')
-      expect(firstWorker).to.have.property('hourly_wage')
-      expect(firstWorker).to.have.property('logged_times').that.is.an('array')
-    }
+    const worker = body.data.workers[0]
+
+    expect(worker).to.have.property('id')
+    expect(worker).to.have.property('username')
+    expect(worker).to.have.property('hourly_wage')
+    expect(worker).to.have.property('logged_times').that.is.an('array')
   })
 })
