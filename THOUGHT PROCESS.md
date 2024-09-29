@@ -18,12 +18,12 @@ A few other explanations:
 Last but not least, we need a testing framework. I'm going with Mocha, Chai and Supertest, as that configuration somewhat resembles rspec and I'm kinda used to that.
 
 ### First Steps
-- Got Prisma hooked up to MariaDB, with baseline migration. So I swapped out the original migration script for prisma. To get everything set up you now run: `docker-compose exec server npx prisma migrate dev`
+- Got Prisma hooked up to MariaDB, with a baseline migration. So I swapped out the original migration script for prisma. To get everything set up you now run: `docker-compose exec server npx prisma migrate dev`
 - Added a migration for complete status of tasks
 - Got typescript configured
 
 ### The Meat of the Project
-Now normally by this point I'd be working on getting specs in place, but I'm not 100% on how prisma integrates with graphql and how that will be structured, nor am I 100% on how best to structure tests for GraphQL, so for me that means a little experimentation is in order. And tests will have to be last. In normal development situations I would try to at least get an outline into my specs before actually writing any code. It helps me keep on track and in scope. But sometimes strict BDD is just not feasible, and this project is admittedly charting some new territory for me.
+Now normally by this point I'd be working on getting specs in place, but I'm not 100% on how prisma integrates with GraphQL and how that will be structured, nor am I 100% on how best to structure tests for GraphQL, so for me that means a little experimentation is in order. And tests will have to be last. In normal development situations I would try to at least get an outline into my specs before actually writing any code. It helps me keep on track and in scope. But sometimes strict BDD is just not feasible, and this project is admittedly charting some new territory for me.
 
 The first big exploration for me was getting our GraphQL schema in place and manually testing some things, as well as tying that in with my prisma resolvers. Once the main filters were working, I spent the bulk of the time trying to figure out a good standard for showing the total cost for locations / workers. I tried a few in-built prisma options (models, extending results with computed fields), but they didn't really work with our GraphQL setup, so eventually I settled on the solution we have now.
 
