@@ -15,7 +15,7 @@ A few other explanations:
 - express-graphql and graphql-tools help us set up our schema and route handler
 - snaplet-seed integrates with prisma and automates our DB seeding so we can have a lot more data without me manually creating records or SQL
 
-Last but not least, we need a testing framework. I'm going with Mocha, Chai and ~~Supertest~~ (ultimately went with GraphQL-Request, much cleaner for testing this API), as that configuration somewhat resembles rspec and I'm kinda used to that.
+Last but not least, we need a testing framework. I'm going with Mocha, Chai and Supertest, as that configuration somewhat resembles rspec and I'm kinda used to that.
 
 With planning out of the way, time to start slapping this thing together!
 
