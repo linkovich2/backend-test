@@ -90,7 +90,7 @@ describe('GraphQL API', () => {
       })
       .set('Accept', 'application/json')
     
-      const body = response.body
+    const body = response.body
 
     expect(body).to.have.property('data')
     expect(body.data).to.have.property('workers').that.is.an('array')
@@ -103,24 +103,113 @@ describe('GraphQL API', () => {
     expect(worker).to.have.property('logged_times').that.is.an('array')
   })
 
-  describe("total spent computed field", () => {
+  describe("#total_cost computed field", () => {
     describe("with no filter applied", () => {
       describe("on workers", () => {
         it("should show the aggregate total spent", async () => {
+          const worker_count = await context.prisma.workers.count()
 
+          const query = gql`
+            query Workers {
+              workers { 
+                id
+                hourly_wage 
+                total_cost
+              }
+            }
+          `
+
+          const response = await request(server)
+            .post('/')
+            .send({ query: print(query) })
+            .set('Accept', 'application/json')
+          
+          const body = response.body
+          expect(body).to.have.property('data')
+          expect(body.data).to.have.property('workers').that.is.an('array')
+          expect(body.data.workers.length).to.eq(worker_count) // returned all
+      
+          const worker = body.data.workers[0]
+          const db_worker = await context.prisma.workers.findUnique({ 
+            where: { id: parseInt(worker.id) }, 
+            include: { 
+              logged_times: true 
+            } 
+          })
+          let total_cost = 0.0
+
+          db_worker?.logged_times.forEach((lt) => {
+            total_cost += (lt.time_seconds / 3600) * db_worker?.hourly_wage.toNumber()
+          })
+
+          // JS is doing some weird stuff with the Decimal type here on occasion, so ceil is here as a @temp fix
+          expect(Math.ceil(total_cost)).to.eq(Math.ceil(worker.total_cost))
         })
       })
 
       describe("on locations", () => {
         it("should show the aggregate total spent", async () => {
+          const location_count = await context.prisma.locations.count()
 
+          const query = gql`
+            query Locations {
+              locations { 
+                id
+                name 
+                total_cost
+              }
+            }
+          `
+
+          const response = await request(server)
+            .post('/')
+            .send({ query: print(query) })
+            .set('Accept', 'application/json')
+          
+          const body = response.body
+          expect(body).to.have.property('data')
+          expect(body.data).to.have.property('locations').that.is.an('array')
+          expect(body.data.locations.length).to.eq(location_count) // returned all
+      
+          const location = body.data.locations[0]
+          const db_location = await context.prisma.locations.findUnique({ 
+            where: { id: parseInt(location.id) }, 
+            include: { 
+              tasks: {
+                include: {
+                  logged_times: {
+                    include: {
+                      worker: true
+                    }
+                  }
+                }
+              } 
+            } 
+          })
+          let total_cost = 0.0
+
+          db_location?.tasks.forEach((task) => {
+            task.logged_times.forEach((lt) => {
+              total_cost += (lt.time_seconds / 3600) * lt.worker.hourly_wage.toNumber()
+            })
+          })
+
+          expect(Math.ceil(total_cost)).to.eq(Math.ceil(location.total_cost))
         })
       })
     })
 
     describe("with filter applied", () => {
-      it("should combine only the related records", async () => {
+      describe("on locations", () => {
+        it("should combine only the related records", async () => {
 
+        })
+      })
+      
+      describe("on workers", () => {
+        it("should combine only the related records", async () => {
+
+        })
       })
     })
   })

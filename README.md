@@ -46,5 +46,5 @@ docker compose down
 docker-compose exec server npm test
 ```
 
-## What's Next?
-Take a look at my [process breakdown](./THOUGHT%20PROCESS.md)
+## Further Reading
+Take a look at my [process breakdown](./THOUGHT%20PROCESS.md) for some details about my thinking with this little project!
