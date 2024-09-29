@@ -15,7 +15,7 @@ A few other explanations:
 - express-graphql and graphql-tools help us set up our schema and route handler
 - snaplet-seed integrates with prisma and automates our DB seeding so we can have a lot more data without me manually creating records or SQL
 
-Last but not least, we need a testing framework. I'm going with Mocha, Chai and Supertest, as that configuration somewhat resembles rspec and I'm kinda used to that.
+Last but not least, we need a testing framework. I'm going with Mocha, Chai and ~~Supertest~~ (ultimately went with GraphQL-Request, much cleaner for testing this API), as that configuration somewhat resembles rspec and I'm kinda used to that.
 
 With planning out of the way, time to start slapping this thing together!
 
@@ -37,6 +37,7 @@ After that, I just tried some different seeding options and kept testing and ite
 3. Logging. Access logs in APIs like this are a great way to track usage.
 4. Performance tracking. NewRelic or something like it
 5. Refactoring. My example here is hardly idiomatic (although I'm not sure there's a particular standard to adhere to in the Node world) - maybe organizing it in whatever standards we've implemented in other repos is a good idea for onboarding.
+6. Tests can _always_ be expanded.
 
 There are probably other improvements that can be made. This was a fun dive into GraphQL for me, as I didn't have much experience with it - generally I would have approached this with a REST solution, but I've done so much of that in my career and GraphQL had some interesting advantages for this use-case.
 

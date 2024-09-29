@@ -1,22 +1,7 @@
-import express from "express"
-import helmet from "helmet"
-import { graphqlHTTP } from 'express-graphql'
-import { schema } from './schema.js'
-import { context } from './context.js'
-
-const app  = express()
-const port = 3000
-
-// @todo tests
+import { create_server, default_port, ctx as context } from './server.js'
 
 async function main() {
-  app.use(helmet())
-
-  app.use('/', graphqlHTTP({ schema, context }))
-
-  app.listen(port, "0.0.0.0", () => {
-    console.info(`App listening on ${port}.`)
-  })
+  const server = create_server(default_port)
 }
 
 main()
