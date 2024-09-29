@@ -17,8 +17,6 @@ A few other explanations:
 
 Last but not least, we need a testing framework. I'm going with Mocha, Chai and Supertest, as that configuration somewhat resembles rspec and I'm kinda used to that.
 
-With planning out of the way, time to start slapping this thing together!
-
 ### First Steps
 - Got Prisma hooked up to MariaDB, with baseline migration. So I swapped out the original migration script for prisma. To get everything set up you now run: `docker-compose exec server npx prisma migrate dev`
 - Added a migration for complete status of tasks
