@@ -13,9 +13,11 @@ describe('GraphQL API', () => {
   })
 
   it('should fetch locations based on filters', async () => {
+    const db_location = await context.prisma.locations.findFirst()
+
     const query = gql`
-      query Locations {
-        locations { 
+      query Locations($ids: [Int!]) {
+        locations(ids: $ids) { 
           id
           name 
         }
@@ -25,7 +27,10 @@ describe('GraphQL API', () => {
     const response = await request(server)
       .post('/')
       .send({
-          query: print(query)
+          query: print(query),
+          variables: {
+            ids: [db_location?.id]
+          }
       })
       .set('Accept', 'application/json')
     
@@ -36,7 +41,9 @@ describe('GraphQL API', () => {
 
     const location = body.data.locations[0]
     expect(location).to.have.property('id')
+    expect(location.id).to.eq(db_location?.id.toString())
     expect(location).to.have.property('name')
+    expect(location.name).to.eq(db_location?.name)
   })
 
   it('should fetch workers based on filters', async () => {
@@ -62,17 +69,15 @@ describe('GraphQL API', () => {
       }
     `
 
-    const variables = {
-      ids: [1],
-      location_ids: [1],
-      complete: false
-    }
-
     const response = await request(server)
       .post('/')
       .send({
           query: print(query), 
-          variables
+          variables: {
+            ids: [1],
+            location_ids: [1],
+            complete: false
+          }
       })
       .set('Accept', 'application/json')
     
