@@ -8,8 +8,17 @@ import { print } from 'graphql/language/printer.js'
 const server = create_server(3001)
 
 describe('GraphQL API', () => {
-  after(async () => {
-    await server.close()
+  before(async () => {
+    const db_status_check = await context.prisma.locations.count() > 0
+    if (!db_status_check) {
+      throw Error("Database needs seeding. Run `docker-compose exec server npx prisma db seed`") 
+      // @todo seeding should be automated in a proper CI environment, 
+      // but locally since it takes a while I figure its fine for it to be manual
+    }
+  })
+
+  after(() => {
+    server.close()
   })
 
   it('should fetch locations based on filters', async () => {
@@ -92,5 +101,27 @@ describe('GraphQL API', () => {
     expect(worker).to.have.property('username')
     expect(worker).to.have.property('hourly_wage')
     expect(worker).to.have.property('logged_times').that.is.an('array')
+  })
+
+  describe("total spent computed field", () => {
+    describe("with no filter applied", () => {
+      describe("on workers", () => {
+        it("should show the aggregate total spent", async () => {
+
+        })
+      })
+
+      describe("on locations", () => {
+        it("should show the aggregate total spent", async () => {
+
+        })
+      })
+    })
+
+    describe("with filter applied", () => {
+      it("should combine only the related records", async () => {
+
+      })
+    })
   })
 })

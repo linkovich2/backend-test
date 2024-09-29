@@ -41,5 +41,10 @@ by bringing the DB container down:
 docker compose down
 ```
 
+## Testing
+```bash
+docker-compose exec server npm test
+```
+
 ## What's Next?
 Take a look at my [process breakdown](./THOUGHT%20PROCESS.md)
